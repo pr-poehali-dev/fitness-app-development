@@ -1,6 +1,8 @@
+import { useState } from "react";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import ExerciseCategory from "@/components/ExerciseCategory";
+import WorkoutSelectionModal from "@/components/WorkoutSelectionModal";
 import {
   upperBodyExercises,
   lowerBodyExercises,
@@ -9,10 +11,22 @@ import {
 } from "@/data/exercises";
 
 const Index = () => {
+  const [isWorkoutModalOpen, setIsWorkoutModalOpen] = useState(false);
+
+  const handleStartWorkout = () => {
+    setIsWorkoutModalOpen(true);
+  };
+
+  const handleWorkoutSelect = (workoutType: string) => {
+    setIsWorkoutModalOpen(false);
+    // Здесь можно добавить логику перехода к выбранной тренировке
+    console.log(`Выбрана тренировка: ${workoutType}`);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
-      <Hero />
+      <Hero onStartWorkout={handleStartWorkout} />
 
       <div className="py-16">
         <ExerciseCategory
@@ -39,6 +53,12 @@ const Index = () => {
           categoryIcon="⚡"
         />
       </div>
+
+      <WorkoutSelectionModal
+        isOpen={isWorkoutModalOpen}
+        onClose={() => setIsWorkoutModalOpen(false)}
+        onWorkoutSelect={handleWorkoutSelect}
+      />
     </div>
   );
 };
